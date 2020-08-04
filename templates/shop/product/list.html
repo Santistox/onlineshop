@@ -1,32 +1,39 @@
 {% extends "base/base.html" %}
 {% load static %}
 {% block title %}
-    {% if category %}{{ category.name }}{% else %}Products{% endif %}
+{% if category %}{{ category.name }}{% else %}Products{% endif %}
 {% endblock %}
 {% block content %}
-    <div id="sidebar">
-        <h3>Categories</h3>
-        <ul>
-            <li>
-                <a href="{% url 'shop:product_list' %}">All</a>
-            </li>
+<div class="row">
+    <div class="col-lg-3">
+        <h2 class="my-4">Categories</h2>
+        <div class="list-group">
+            <a href="{% url 'shop:product_list' %}" class="list-group-item {% if not category %}active{% endif %}">All</a>
             {% for c in categories %}
-                <li>
-                    <a href="{{ c.get_absolute_url }}">{{ c.name }}</a>
-                </li>
+            <a href="{{ c.get_absolute_url }}" class="list-group-item {% if category.slug == c.slug %}active{% endif %}">{{ c.name }}</a>
             {% endfor %}
-        </ul>
+        </div>
     </div>
-    <div id="main" class="product-list">
-        <h1>{% if category %}{{ category.name }}{% else %}Products{% endif %}</h1>
-        {% for product in products %}
-            <div class="item">
-                <a href="{{ product.get_absolute_url }}">
-                    <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}">
-                </a>
-                <a href="{{ product.get_absolute_url }}">{{ product.name }}</a><br>
-                ${{ product.price }}
+    <div class="col-lg-9 my-4">
+        <div class="row">
+            {% for product in products %}
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100">
+                    <a href="{{ product.get_absolute_url }}"><img class="card-img-top"
+                                                                  src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'images/no_img.png' %}{% endif %}"
+                                                                  alt=""></a>
+                    <div class="card-body">
+                        <h4 class="card-title">
+                            <a href="{{ product.get_absolute_url }}">{{ product.name }}</a>
+                        </h4>
+                        <h5>{{ product.price|floatformat:2 }} $</h5>
+                    </div>
+                </div>
             </div>
-        {% endfor %}
+            {% empty %}
+            <h3>We couldn't find anything(</h3>
+            {% endfor %}
+        </div>
     </div>
+</div>
 {% endblock %}

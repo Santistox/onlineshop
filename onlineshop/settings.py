@@ -4,12 +4,8 @@ CART_SESSION_ID = 'cart'
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-SECRET_KEY = 'z89j%ipsjcymi8+bk%_jv&8+1_*bbgt_1($&-t&qktsf9^*1r_'
-
-DEBUG = True
-
-ALLOWED_HOSTS = ['*']
-
+# SECURITY
+from .settings_local import *
 
 
 INSTALLED_APPS = [
